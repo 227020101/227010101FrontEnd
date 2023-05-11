@@ -19,6 +19,7 @@ export default class Profile extends Component<Props, State> {
       userReady: false,
       currentUser: { accessToken: "" }
     };
+   
   }
 
   componentDidMount() {
@@ -45,13 +46,16 @@ export default class Profile extends Component<Props, State> {
               </h3>
             </header>
             <p>
-              <strong>Token:</strong>{" "}
-              {currentUser.accessToken.substring(0, 20)} ...{" "}
-              {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
-            </p>
-            <p>
               <strong>Id:</strong>{" "}
               {currentUser.id}
+            </p>
+            <p>
+              <strong>First Name:</strong>{" "}
+              {currentUser.firstname}
+            </p>
+            <p>
+              <strong>Last Name:</strong>{" "}
+              {currentUser.lastname}
             </p>
             <p>
               <strong>Email:</strong>{" "}
@@ -59,8 +63,7 @@ export default class Profile extends Component<Props, State> {
             </p>
             <strong>Authorities:</strong>
             <ul>
-              {currentUser.roles &&
-                currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+              {currentUser.userrole}
             </ul>
           </div> : null}
       </div>
