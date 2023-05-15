@@ -21,12 +21,17 @@
     "vite": "^3.0.4"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@types/react-router-dom": "^5.3.3",
     "antd": "^5.4.7",
     "axios": "^1.4.0",
     "bootstrap": "^4.6.0",
+    "buffer": "^6.0.3",
     "formik": "^2.2.9",
+    "prop-types": "^15.8.1",
+    "rc-queue-anim": "^2.0.0",
+    "rc-tween-one": "^3.0.6",
     "react-router-dom": "^6.11.1",
     "web-vitals": "^3.3.1",
     "yup": "^1.1.1"

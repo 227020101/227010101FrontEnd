@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -10,11 +10,12 @@ type State = {
   username: string,
   email: string,
   password: string,
+  role: string,
   successful: boolean,
   message: string
 };
 
-export default class Register extends Component<Props, State> {
+export default class Register extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
@@ -23,6 +24,7 @@ export default class Register extends Component<Props, State> {
       username: "",
       email: "",
       password: "",
+      role: "User",
       successful: false,
       message: ""
     };
@@ -56,8 +58,8 @@ export default class Register extends Component<Props, State> {
     });
   }
 
-  handleRegister(formValue: { username: string; email: string; password: string }) {
-    const { username, email, password } = formValue;
+  handleRegister(formValue: { username: string; email: string; password: string, role: string }) {
+    const { username, email, password, role } = formValue;
 
     this.setState({
       message: "",
@@ -67,7 +69,8 @@ export default class Register extends Component<Props, State> {
     AuthService.register(
       username,
       email,
-      password
+      password,
+      role
     ).then(
       response => {
         this.setState({
@@ -98,6 +101,7 @@ export default class Register extends Component<Props, State> {
       username: "",
       email: "",
       password: "",
+      role: "User"
     };
 
     return (
@@ -146,6 +150,19 @@ export default class Register extends Component<Props, State> {
                     />
                     <ErrorMessage
                       name="password"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="role"> Role </label>
+                    <Field name="role" as="select" className="form-control">
+                      <option value="User">User</option>
+                      <option value="Admin">Admin</option>
+                    </Field>
+                    <ErrorMessage
+                      name="role"
                       component="div"
                       className="alert alert-danger"
                     />
