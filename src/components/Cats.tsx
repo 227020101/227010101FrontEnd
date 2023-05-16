@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Col, Input, Row, Select, Spin } from 'antd';
 import { api } from '../common/http-common';
 import axios from 'axios';
+import moment from 'moment';
 
 const { Option } = Select;
 
@@ -68,9 +69,9 @@ const Cats = () => {
                 cover={<img alt={name} src={imageurl} />}
               >
                 <p>{alltext}</p>
-                <p>{birthday}</p>
-                <p>{microchipno}</p>
-                <p>{gender}</p>
+                <p>Birthday: {moment(birthday).format('YYYY-MM-DD')}</p>
+                <p>Microchip No: {microchipno}</p>
+                <p>Gender: {gender}</p>
                 <p></p>
                 <Link to={`/a/${id}`}>Details</Link>
               </Card>
