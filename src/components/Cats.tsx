@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Col, Input, Row, Select, Spin } from 'antd';
 import { api } from '../common/http-common';
 import axios from 'axios';
 import moment from 'moment';
+import { Card, Col, Input, Row, Select, Spin } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -66,8 +66,9 @@ const Cats = () => {
                 title={name}
                 style={{ width: 300 }}
                 bordered={true}
-                cover={<img alt={name} src={imageurl} />}
-              >
+                cover={<img alt={name} src={`data:image/jpeg;base64,${imageurl}`}  />}
+                >
+                <p>ID: {id}</p>
                 <p>{alltext}</p>
                 <p>Birthday: {moment(birthday).format('YYYY-MM-DD')}</p>
                 <p>Microchip No: {microchipno}</p>

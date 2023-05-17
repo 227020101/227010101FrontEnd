@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Col, Input, Row, Select, Spin, Modal, Form, Button, Upload, DatePicker } from 'antd';
+import { Card, Col, Input, Row, Select, Spin, Modal, Form, Button, Upload, DatePicker,message} from 'antd';
 import { api } from '../common/http-common';
 import axios from 'axios';
 import authHeader from '../services/auth-header';
@@ -17,7 +17,6 @@ const Cats = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedCat, setSelectedCat] = React.useState(null);
   const [form] = Form.useForm();
-  const [fileList, setFileList] = React.useState([]);
   const [deleting, setDeleting] = React.useState(false); // new state variable for deleting
 
   React.useEffect(() => {
@@ -39,32 +38,35 @@ const Cats = () => {
   const handleAdd = () => {
     setSelectedCat(null);
     form.resetFields();
-    setFileList([]);
     setModalVisible(true);
   };
 
   const handleEdit = (cat) => {
     setSelectedCat(cat);
     form.setFieldsValue(cat);
-    setFileList([{ uid: '-1', name: 'image.png', status: 'done', url: cat.imageurl }]);
     setModalVisible(true);
   };
 
   const handleDelete = (id) => {
-    Modal.confirm({
-      title: 'Are you sure you want to delete this cat?',
-      okText: 'Delete',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      onOk() {
-        setDeleting(true);
-        axios.delete(`${api.uri}/cats/${id}`, { headers: authHeader()}).then(() => {
-          setCats(cats.filter((cat) => cat.id !== id));
-          setDeleting(false);
-        });
-      },
-    });
-  };
+  Modal.confirm({
+    title: 'Are you sure you want to delete this cat?',
+    okText: 'Delete',
+    okType: 'danger',
+    cancelText: 'Cancel',
+    onOk() {
+      setDeleting(true);
+      axios.delete(`${api.uri}/cats/${id}`, { headers: authHeader()}).then(() => {
+        let catID = id;
+        setCats(cats.filter((cat) => cat.id !== id));
+        setDeleting(false);
+        message.success(`Cat id ${catID} deleted successfully`);
+        window.location.reload(false);
+      });
+    },
+  });
+};
+
+  
 
   const handleModalOk = () => {
     form.submit();
@@ -81,24 +83,20 @@ const Cats = () => {
     const method = id ? 'put' : 'post';
     const url = id ? `${api.uri}/cats/${id}` : `${api.uri}/cats`;
     let formData = form.getFieldsValue();
-    formData = { ...formData, image: fileList[0]?.originFileObj };
     const data2 = new FormData();
     Object.keys(formData).forEach((key) => data2.append(key, formData[key]));
-
-    data2.append('image', fileList[0]?.originFileObj);
-
     axios[method](url, formData, { headers: authHeader()}).then((res) => {
       if (id) {
         setCats(cats.map((cat) => (cat.id === id ? res.data : cat)));
+        message.success(`Cat id ${id} updated successfully`);
+        window.location.reload(false);
       } else {
         setCats([...cats, res.data]);
+        message.success('Cat created successfully');
+        window.location.reload(false);
       }
       setModalVisible(false);
     });
-  };
-
-  const handleFileListChange = ({ fileList }) => {
-    setFileList(fileList);
   };
 
   let filteredCats = cats;
@@ -142,8 +140,9 @@ const Cats = () => {
                   title={cat.name}
                   style={{ width: 300 }}
                   bordered={true}
-                  cover={<img alt={cat.name} src={cat.imageurl} />}
+                  cover={<img alt={cat.name} src={`data:image/jpeg;base64,${cat.imageurl}`}  />}
                 >
+                  <p>ID: {cat.id}</p>
                   <p>{cat.alltext}</p>
                   <p>Birthday: {moment(cat.birthday).format('YYYY-MM-DD')}</p>
                   <p>Microchip No: {cat.microchipno}</p>
@@ -191,15 +190,6 @@ const Cats = () => {
                 <Option value="male">Male</Option>
                 <Option value="female">Female</Option>
               </Select>
-            </Form.Item>
-            <Form.Item label="Image" name="image">
-              <Upload
-                listType="picture-card"
-                fileList={fileList}
-                onChange={handleFileListChange}
-              >
-                {fileList.length < 1 && '+ Upload'}
-              </Upload>
             </Form.Item>
           </Form>
         </Modal>

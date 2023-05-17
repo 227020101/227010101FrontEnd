@@ -32,7 +32,7 @@ const Users = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      sorter: (a, b) => a.id -b.id,
+      sorter: (a, b) => a.id - b.id,
       sortDirections: ['ascend', 'descend'],
     },
     {
@@ -91,9 +91,14 @@ const Users = () => {
     setDeletingUser(user);
   };
 
+  // Add these two state variables
+  const [editLoading, setEditLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   const handleUpdate = () => {
     form.validateFields().then(values => {
       const updatedUser = { ...editingUser, ...values };
+      setEditLoading(true); // Set loading state to true
       axios.put(`${api.uri}/Users/${updatedUser.id}`, updatedUser, { headers: authHeader() }).then((res) => {
         setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
         setEditingUser(null);
@@ -101,23 +106,29 @@ const Users = () => {
         message.success('User updated successfully!');
       }).catch((err) => {
         console.log(err);
+      }).finally(() => {
+        setEditLoading(false); // Set loading state back to false
       });
     });
   };
 
-  const handleCancelUpdate = () => {
-    setEditingUser(null);
-    form.resetFields();
-  };
-
   const handleDeleteConfirm = () => {
+    setDeleteLoading(true); // Set loading state to true
     axios.delete(`${api.uri}/Users/${deletingUser.id}`, { headers: authHeader() }).then((res) => {
       setUsers(users.filter(user => user.id !== deletingUser.id));
       setDeletingUser(null);
       message.success('User deleted successfully!');
     }).catch((err) => {
       console.log(err);
+    }).finally(() => {
+      setDeleteLoading(false); // Set loading state back to false
     });
+  };
+
+
+  const handleCancelUpdate = () => {
+    setEditingUser(null);
+    form.resetFields();
   };
 
   const handleCancelDelete = () => {
