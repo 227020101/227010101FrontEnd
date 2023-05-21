@@ -59,7 +59,7 @@ const Cats = () => {
           </Select>
         </div>
         <Row justify="space-around" gutter={[24, 32]}>
-          {filteredCats && filteredCats.map(({ id, name, alltext, birthday, microchipno, gender, imageurl }) => (
+          {filteredCats && filteredCats.map(({ id, name, alltext, age, microchipno, gender, imageurl }) => (
             <Col span={8} key={id}>
               <Card
                 hoverable
@@ -70,7 +70,7 @@ const Cats = () => {
                 >
                 <p>ID: {id}</p>
                 <p>{alltext}</p>
-                <p>Birthday: {moment(birthday).format('YYYY-MM-DD')}</p>
+                <p>Age: {age}</p>
                 <p>Microchip No: {microchipno}</p>
                 <p>Gender: {gender}</p>
                 <p></p>

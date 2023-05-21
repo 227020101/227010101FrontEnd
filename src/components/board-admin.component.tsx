@@ -42,11 +42,6 @@ const Users = () => {
       sorter: (a, b) => a.username.localeCompare(b.username),
       sortDirections: ['ascend', 'descend'],
     },
-    // {
-    //   title: 'Password',
-    //   dataIndex: 'password',
-    //   key: 'password',
-    // },
     {
       title: 'Email',
       dataIndex: 'email',
@@ -165,9 +160,6 @@ const Users = () => {
         <Form form={form}>
           <Form.Item name="username" label="Username" rules={[{ required: true, message: 'Please input the username!' }]}>
             <Input />
-          </Form.Item>
-          <Form.Item name="password" label="Password" rules={[{ required: true, message: 'Please input the password!' }]}>
-            <Input.Password />
           </Form.Item>
           <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Please input the email!' }, { type: 'email', message: 'Please input a valid email!' }]}>
             <Input />
