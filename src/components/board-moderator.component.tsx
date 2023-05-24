@@ -49,7 +49,7 @@ const Cats = () => {
       reader.onload = () => {
         const base64Data = reader.result.substr(reader.result.indexOf(',') + 1);
 
-        const updatedImage = { imageUrl: base64Data };
+        const updatedImage = { imageurl: base64Data };
         axios.put(`${api.uri}/uploadImage/${cat.id}`, updatedImage, { headers: authHeader() }).then(() => {
           // setCats([...cats, res.data]);
           // form.resetFields();
