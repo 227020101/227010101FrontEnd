@@ -42,8 +42,8 @@ class App extends Component<Props, State> {
     if (user) {
       this.setState({
         currentUser: user,
-        showModeratorBoard: user.userrole.includes("MODERATOR"),
-        showAdminBoard: user.userrole.includes("admin"),
+        showModeratorBoard: user.userrole.includes("Worker"),
+        showAdminBoard: user.userrole.includes("Admin"),
       });
     }
 
@@ -69,9 +69,11 @@ class App extends Component<Props, State> {
     return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
+
           <Link to={"/"} className="navbar-brand">
             Cats
           </Link>
+
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link to={"/home"} className="nav-link">
@@ -82,7 +84,7 @@ class App extends Component<Props, State> {
             {showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/mod"} className="nav-link">
-                  Moderator Board
+                  Worker Board
                 </Link>
               </li>
             )}
@@ -94,15 +96,14 @@ class App extends Component<Props, State> {
                 </Link>
               </li>
             )}
-            
+
             {showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/mod"} className="nav-link">
-                  Moderator Board
+                  Worker Board
                 </Link>
               </li>
             )}
-
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">

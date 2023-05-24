@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form, ErrorMessage,message  } from "formik";
 import * as Yup from "yup";
 
 import AuthService from "../services/auth.service";
@@ -9,8 +9,9 @@ type Props = {};
 type State = {
   username: string,
   email: string,
+  firstname: string,
+  lastname: string,
   password: string,
-  role: string,
   successful: boolean,
   message: string
 };
@@ -22,9 +23,10 @@ export default class Register extends React.Component<Props, State> {
 
     this.state = {
       username: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
-      role: "User",
       successful: false,
       message: ""
     };
@@ -58,9 +60,8 @@ export default class Register extends React.Component<Props, State> {
     });
   }
 
-  handleRegister(formValue: { username: string; email: string; password: string, role: string }) {
-    const { username, email, password, role } = formValue;
-
+  handleRegister(formValue: { username: string; firstname: string; lastname: string;email: string; password: string }) {
+    const { username, email, password, lastname,firstname } = formValue;
     this.setState({
       message: "",
       successful: false
@@ -70,12 +71,13 @@ export default class Register extends React.Component<Props, State> {
       username,
       email,
       password,
-      role
+      firstname,
+      lastname
     ).then(
       response => {
         this.setState({
           message: response.data.message,
-          successful: true
+          successful: true,
         });
       },
       error => {
@@ -101,7 +103,8 @@ export default class Register extends React.Component<Props, State> {
       username: "",
       email: "",
       password: "",
-      role: "User"
+      firstname:"",
+      lastname:""
     };
 
     return (
@@ -130,6 +133,24 @@ export default class Register extends React.Component<Props, State> {
                       className="alert alert-danger"
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="firstname"> First Name </label>
+                    <Field name="firstname" type="text" className="form-control" />
+                    <ErrorMessage
+                      name="firstname"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="lastname"> Last Name </label>
+                    <Field name="lastname" type="text" className="form-control" />
+                    <ErrorMessage
+                      name="lastname"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
 
                   <div className="form-group">
                     <label htmlFor="email"> Email </label>
@@ -154,20 +175,6 @@ export default class Register extends React.Component<Props, State> {
                       className="alert alert-danger"
                     />
                   </div>
-
-                  <div className="form-group">
-                    <label htmlFor="role"> Role </label>
-                    <Field name="role" as="select" className="form-control">
-                      <option value="User">User</option>
-                      <option value="Admin">Admin</option>
-                    </Field>
-                    <ErrorMessage
-                      name="role"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-
                   <div className="form-group">
                     <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                   </div>
@@ -183,6 +190,13 @@ export default class Register extends React.Component<Props, State> {
                     role="alert"
                   >
                     {message}
+                  </div>
+                </div>
+              )}
+              {successful && (
+                <div className="form-group">
+                  <div className="alert alert-success" role="alert">
+                    Registration successful!
                   </div>
                 </div>
               )}

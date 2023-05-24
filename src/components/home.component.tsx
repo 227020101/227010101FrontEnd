@@ -21,7 +21,7 @@ export default class Home extends Component<Props, State> {
     return (
       <div className="container">
         <header className="jumbotron">
-          <p> Home</p>
+          <h1> Cats List </h1>
           <Cats></Cats>
         </header>
       </div>
