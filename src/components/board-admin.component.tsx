@@ -7,7 +7,7 @@ import authHeader from '../services/auth-header';
 
 const { Option } = Select;
 
-const userRoleList = ['User', 'Moderator', 'Admin'];
+const userRoleList = ['User', 'Worker', 'Admin'];
 
 const Users = () => {
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,6 @@ const Users = () => {
 
   useEffect(() => {
     axios.get(`${api.uri}/Users`, { headers: authHeader() }).then((res) => {
-      console.log(res.data);
       setUsers(res.data);
       setLoading(false);
     }).catch((err) => {

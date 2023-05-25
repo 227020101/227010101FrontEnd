@@ -34,9 +34,10 @@ const Cats = () => {
     const user = JSON.parse(localStorage.getItem("user"))
     const userid = user.id;
     const favouritesData = {
-      catid: id,
-      userid: userid
+      catid:  `${id}`,
+      userid: `${userid}`
     }
+    console.log(favouritesData);
     setEditLoading(true); // Set loading state to true
     axios.post(`${api.uri}/favourites`, favouritesData, { headers: authHeader() }).then(() => {
       message.success(`Cats ${id} added to favourites list successfully!`);
